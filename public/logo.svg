@@ -1,0 +1,25 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Pot body -->
+  <rect x="96" y="180" width="320" height="220" rx="60" fill="#E74C3C"/>
+
+  <!-- Pot face -->
+  <circle cx="216" cy="280" r="10" fill="#2C3E50"/>
+  <circle cx="296" cy="280" r="10" fill="#2C3E50"/>
+  <path d="M230 310 Q256 330 282 310" stroke="#2C3E50" stroke-width="8" fill="none"/>
+
+  <!-- Handles -->
+  <rect x="60" y="240" width="50" height="80" rx="25" fill="#C0392B"/>
+  <rect x="402" y="240" width="50" height="80" rx="25" fill="#C0392B"/>
+
+  <!-- Lid -->
+  <rect x="120" y="140" width="272" height="50" rx="25" fill="#F1C40F"/>
+  <rect x="230" y="110" width="52" height="30" rx="15" fill="#F39C12"/>
+
+  <!-- Steam -->
+  <path d="M180 90 C160 60 200 40 180 10" stroke="#BDC3C7" stroke-width="8" fill="none"/>
+  <path d="M256 90 C236 60 276 40 256 10" stroke="#BDC3C7" stroke-width="8" fill="none"/>
+  <path d="M332 90 C312 60 352 40 332 10" stroke="#BDC3C7" stroke-width="8" fill="none"/>
+
+</svg>
