@@ -9,6 +9,8 @@ import { layoutConfig } from "@/config/layout.config";
 import RegistrationModal from "../modals/registration.modal";
 import LoginModal from "../modals/login.modal";
 import { useState } from "react";
+import { signOutFunc } from "@/actions/sign-out";
+import { useAuthStore } from "@/store/auth.store";
 
 export const Logo = () => {
   return (
@@ -24,9 +26,20 @@ export const Logo = () => {
 
 export default function Header() {
   const pathname = usePathname();
+  const { isAuth, session, status, setAuthState } = useAuthStore();
 
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+
+  const handleSignOut = async () => {
+    try {
+      await signOutFunc();
+    } catch (error) {
+      throw new Error("Sign Out error: " + (error instanceof Error ? error.message : String(error)));
+    }
+
+    setAuthState("unauthenticated", null);
+  }
 
   const getNavItems = () => {
     return siteConfig.navItems.map((item) => {
@@ -64,29 +77,48 @@ export default function Header() {
       </NavbarContent>
       
       <NavbarContent justify="end">
-        <NavbarItem>
-          <Button
-           as={Link}
-           color="secondary"
-           href="#"
-           variant="flat"
-           onPress={() => setIsLoginOpen(true)}
-          >
-            Login
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button
-           as={Link}
-           color="primary"
-           href="#"
-           variant="flat"
-           onPress={() => setIsRegistrationOpen(true)}
-          >
-            Sign Up
-          </Button>
-        </NavbarItem>
-      </NavbarContent>
+          {isAuth && <p>Hi {session?.user?.email}!</p>}
+          {status === "loading" ? (
+            <p>Loading...</p>
+          ) : !isAuth ? (
+            <>
+              <NavbarItem>
+                <Button
+                as={Link}
+                color="secondary"
+                href="#"
+                variant="flat"
+                onPress={() => setIsLoginOpen(true)}
+                >
+                  Login
+                </Button>
+              </NavbarItem>
+              <NavbarItem>
+                <Button
+                as={Link}
+                color="primary"
+                href="#"
+                variant="flat"
+                onPress={() => setIsRegistrationOpen(true)}
+                >
+                  Sign Up
+                </Button>
+              </NavbarItem>
+            </>
+          ) : (
+            <NavbarItem>
+              <Button
+              as={Link}
+              color="secondary"
+              href="#"
+              variant="flat"
+              onPress={handleSignOut}
+              >
+                LogOut
+              </Button>
+            </NavbarItem>
+          )}
+        </NavbarContent>
 
       <RegistrationModal
         isOpen={isRegistrationOpen}
