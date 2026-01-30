@@ -42,26 +42,33 @@ export default function Header() {
   }
 
   const getNavItems = () => {
-    return siteConfig.navItems.map((item) => {
-      const isActive = pathname === item.href;
-      return (
-        <NavbarItem key={item.href}>
-          <Link
-            color="foreground" 
-            href={item.href}
-            aria-current={isActive ? "page" : undefined}
-            className={`px-3 py1
-              ${isActive ? "text-primary" : "text-foreground"}
-              hover:text-blue-300 hover:border
-              hover:boreder-blue-300 hover:rounded-md
-              transitoin-colors transition-border
-              duration-200`}
-          >
-            {item.label}
-          </Link>
-        </NavbarItem>
-      );
-    })
+    return siteConfig.navItems
+      .filter((item) => {
+        if (item.href === "/ingredients") {
+          return isAuth;
+        }
+        return true;
+      })
+      .map((item) => {
+        const isActive = pathname === item.href;
+        return (
+          <NavbarItem key={item.href}>
+            <Link
+              color="foreground" 
+              href={item.href}
+              aria-current={isActive ? "page" : undefined}
+              className={`px-3 py1
+                ${isActive ? "text-primary" : "text-foreground"}
+                hover:text-blue-300 hover:border
+                hover:boreder-blue-300 hover:rounded-md
+                transitoin-colors transition-border
+                duration-200`}
+            >
+              {item.label}
+            </Link>
+          </NavbarItem>
+        );
+      })
   }
   return (
     <Navbar style={{ height: layoutConfig.headerHeight }}>

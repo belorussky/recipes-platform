@@ -2,7 +2,7 @@
 
 import { ingredientSchema } from "@/schema/zod";
 import prisma from "@/utils/prisma";
-import { ZodError } from "zod";
+import { success, ZodError } from "zod";
 
 export async function createIngredient(formData: FormData) {
     try {
@@ -34,5 +34,29 @@ export async function createIngredient(formData: FormData) {
         }
         console.error("Ingredient creation error", error);
         return { error: "Error when creating an ingredient" };
+    }
+}
+
+export async function getIngredients() {
+    try {
+        const ingredients = await prisma.ingredient.findMany();
+    
+        return { success: true, ingredients };
+    } catch(error) {
+        console.error("An error in obtaining the ingredients", error);
+        return { error: "An error in obtaining the ingredients" };
+    }
+}
+
+export async function deleteIngredient(id: string) {
+    try {
+        const ingredient = await prisma.ingredient.delete({
+            where: { id }
+        });
+    
+        return { success: true, ingredient };
+    } catch(error) {
+        console.error("An error occurred while deleting an ingredient", error);
+        return { error: "An error occurred while deleting an ingredient" };
     }
 }
