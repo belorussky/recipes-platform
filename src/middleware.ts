@@ -7,9 +7,12 @@ export async function middleware(request: NextRequest) {
         req: request,
         secret: process.env.AUTH_SECRET
     });
-    const protectedRoutes = ["/ingredients"];
+    const protectedRoutes = ["/ingredients", "/recipes/new", "/recipes/:path*"];
 
-    if (protectedRoutes.some((route) => pathname.startsWith(route))) {
+    if (protectedRoutes.some((route) => 
+        pathname.startsWith(route.replace(":path*", ""))
+        )
+    ) {
         if (!token) {
             const url = new URL("/error", request.url);
             url.searchParams.set("message", "Not enough rights");
@@ -21,5 +24,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/ingredients"]
+    matcher: ["/ingredients", "/recipes/new", "/recipes/:path*"]
 };
