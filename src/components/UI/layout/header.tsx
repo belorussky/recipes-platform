@@ -15,8 +15,8 @@ import { useAuthStore } from "@/store/auth.store";
 export const Logo = () => {
   return (
     <Image
-      src="/logo.png" 
-      alt="{siteConfig.title}" 
+      src="/logo.svg" 
+      alt={siteConfig.title}
       width={26} 
       height={26} 
       priority
